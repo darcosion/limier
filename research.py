@@ -41,7 +41,8 @@ def getFluxBruteForce(browser):
     base_url = browser.url
     for i in uri_feed:
         browser.open(base_url + i)
-        if(browser.find("feed") != None):
+        if((browser.find("feed") != None) or
+           (browser.find("rss") != None)):
             listret.append(browser.url)
         time.sleep(1.5)
     return listret

@@ -1,10 +1,12 @@
+#!/bin/python3
+
 from robobrowser import RoboBrowser
 import re, time, argparse
 
 #import locaux
 import research
 
-print("Limier par darcosion (https://github.com/darcosion)")
+print("Limier par darcosion (https://github.com/darcosion/limier)")
 
 # paramètres de CLI
 parser = argparse.ArgumentParser()
@@ -28,6 +30,12 @@ listResearch = [research.getFluxLink, research.getFluxBruteForce]
 
 for i in listResearch:
     listurl = list(set(listurl) | set(i(browser)))
+
+#remove doublon '//'
+for n, i in enumerate(listurl):
+    listurl[n]= i.replace('//', '/')
+
+listurl = list(set(listurl))
 
 for i in listurl:
     print("[+] - " + i )
