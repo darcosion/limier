@@ -4,15 +4,18 @@ import time
 uri_feed = [
             #default
             '/feed',
-            '/feed/',
             '/feed.xml',
             '/feed.rss',
-            '/feed/rss',
-            '/feed/atom',
             '/feed/rss.xml',
             '/feed/atom.xml',
             '/atom.xml',
             '/atom.rss',
+            #wordpress
+            '/feed/',
+            '/feed/rss/',
+            '/feed/rss2/',
+            '/feed/rdf/',
+            '/feed/atom/'
             # drupal
             '/rss.xml',
             # SPIP
@@ -22,7 +25,8 @@ uri_feed = [
             #django, due to doc :
             '/latest/feed/',
             '/sitenews',
-            
+            #automn CMS :
+            '/rss/rss.php'
             ]
 
 # récupère les fluxs présents en link simple
