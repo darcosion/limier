@@ -18,11 +18,12 @@ args = parser.parse_args()
 # Création d'un browser pour les recherches
 browser = RoboBrowser(user_agent='Mozilla/5.0 (Windows NT 6.1; rv:45.0) Gecko/20100101 Firefox/45.0'
                       , history=True
-                      , parser='html.parser')
+                      , parser='html.parser'
+                      , allow_redirects=False)
 
 # TODO : faire une vérification du domaine pour être sur...)
 # une fonction réutilisable sera donc un plus, dans utils.py
-browser.open("http://" + args.domain)
+browser.open("https://" + args.domain)
 
 #moulinette, pour le moment locale
 listurl = []
