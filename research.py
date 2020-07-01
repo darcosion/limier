@@ -1,3 +1,5 @@
+#!/bin/python3
+
 import time
 
 #list URI feeds
@@ -26,7 +28,16 @@ uri_feed = [
             '/latest/feed/',
             '/sitenews',
             #automn CMS :
-            '/rss/rss.php'
+            '/rss.php',
+            '/rss/rss.php',
+            # forum BB
+            '/extern.php?action=feed&type=atom',
+            'rss/news/rss.xml',
+            '/syndication.php',
+            '/posts.rss',
+            '/latest.rss',
+            '/index.php?action=.xml;type=rss',
+            '/external?type=rss2'
             ]
 
 # récupère les fluxs présents en link simple

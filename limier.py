@@ -4,7 +4,7 @@ from robobrowser import RoboBrowser
 import re, time, argparse
 
 #import locaux
-import research
+import research, utils
 
 print("Limier par darcosion (https://github.com/darcosion/limier)")
 
@@ -23,6 +23,7 @@ browser = RoboBrowser(user_agent='Mozilla/5.0 (Windows NT 6.1; rv:45.0) Gecko/20
 
 # TODO : faire une vérification du domaine pour être sur...)
 # une fonction réutilisable sera donc un plus, dans utils.py
+assert utils.tld_check(args.domain), "le paramètre nom de domaine est incorrecte"
 browser.open("https://" + args.domain)
 
 #moulinette, pour le moment locale
@@ -34,7 +35,7 @@ for i in listResearch:
 
 #remove doublon '//'
 for n, i in enumerate(listurl):
-    listurl[n]= i.replace('//', '/')
+    listurl[n]= i.replace('//', '/').replace('http', '').replace('s:/', '').replace(':/', '')
 
 listurl = list(set(listurl))
 
