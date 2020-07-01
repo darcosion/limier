@@ -27,3 +27,4 @@ Limier par darcosion (https://github.com/darcosion)
  - Ajouter une option de debug pour visualiser ce que fait limier
  - Exploration d'arborescence de site
  - Identification des CMS
+ - Ajouter la recherche de rss avec googlesearch, au cas où...
