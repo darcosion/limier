@@ -1,6 +1,8 @@
 # limier
 Limier est un petit outil en CLI permettant de trouver un flux RSS quand il est planqué sur un site.
 
+[![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
+
 ## Usage
 
 ```bash
