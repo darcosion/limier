@@ -40,6 +40,11 @@ uri_feed = [
             '/external?type=rss2'
             ]
 
+identifiers = [
+    ""
+
+    ]
+
 # récupère les fluxs présents en link simple
 # TODO : investiguer le format RDF pour RSS ? 
 def getFluxLink(browser):
@@ -61,6 +66,11 @@ def getFluxBruteForce(browser):
             listret.append(browser.url)
         time.sleep(1.5)
     return listret
+
+#identifier le CMS
+
+#def frameworkIdentifier(browser):
+    
         
     
 # TODO : faire la "taxonomy de feed" de drupal en fonction

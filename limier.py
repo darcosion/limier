@@ -1,4 +1,9 @@
-#!/bin/python3
+#!/usr/bin/python3
+
+# un fix super chelou Oo
+# https://stackoverflow.com/questions/46457179/python3-cannot-import-name-cached-property
+import werkzeug 
+werkzeug.cached_property = werkzeug.utils.cached_property
 
 from robobrowser import RoboBrowser
 import re, time, argparse
