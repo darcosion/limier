@@ -111,12 +111,13 @@ def getFluxByGoogle(browser):
     listret = []
     base_domain = re.sub("http(s?)://", '', browser.url).split('/')[0] # isole le domaine
     try:
-        for i in search_in_google("rss " + "site:" + base_domain, num=5):
+        for i in search_in_google("rss " + "site:" + base_domain,
+                                  num=5,
+                                  user_agent=browser.session.headers['User-Agent']):
             if(base_domain in i):
                 browser.open(i)
                 if(utils.rss_check(str(browser.parsed))):
                     listret.append(i)
-            time.sleep(1.5)
     except urllibError.HTTPError:
         print("[x] - google active le blocage de requête car trop de requête d'un coup")
         return listret

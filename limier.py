@@ -17,11 +17,18 @@ print("Limier par darcosion (https://github.com/darcosion/limier)")
 parser = argparse.ArgumentParser()
 parser.add_argument("-d", "--domain", type=str,
                     help="domain to investigate")
+parser.add_argument('-a', "--user-agent", type=str,
+                    help="User-agent to use")
+
 args = parser.parse_args()
 
+if(args.user_agent):
+    user_agent = args.user_agent
+else:
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0'
 
 # Création d'un browser pour les recherches
-browser = RoboBrowser(user_agent='Mozilla/5.0 (Windows NT 6.1; rv:45.0) Gecko/20100101 Firefox/45.0'
+browser = RoboBrowser(user_agent=user_agent
                       , history=True
                       , parser='html.parser'
                       , allow_redirects=False)
