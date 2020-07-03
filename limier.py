@@ -42,8 +42,8 @@ browser.open("https://" + args.domain)
 listurl = []
 listResearch = [research.getFluxLink
                 , research.getSiteMapFlux
-                , research.getFluxByGoogle]
-#                , research.getFluxBruteForce]
+                , research.getFluxByGoogle
+                , research.getFluxBruteForce]
 
 for i in listResearch:
     listurl = list(set(listurl) | set(i(browser)))
