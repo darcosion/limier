@@ -34,7 +34,8 @@ browser.open("https://" + args.domain)
 #moulinette, pour le moment locale
 listurl = []
 listResearch = [research.getFluxLink
-                , research.getSiteMapFlux]
+                , research.getSiteMapFlux
+                , research.getFluxByGoogle]
 #                , research.getFluxBruteForce]
 
 for i in listResearch:
