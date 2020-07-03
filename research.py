@@ -1,6 +1,9 @@
-#!/bin/python3
+#!/usr/bin/env python3
 
 import time
+
+#import local
+import utils
 
 #list URI feeds
 uri_feed = [
@@ -48,6 +51,7 @@ identifiers = [
 # récupère les fluxs présents en link simple
 # TODO : investiguer le format RDF pour RSS ? 
 def getFluxLink(browser):
+    print("[~] - Tentative de récupération de flux type link.")
     listret = []
     fluxlist = browser.find_all('link', attrs={'type':"application/rss+xml"})
     for i in fluxlist:
@@ -57,6 +61,7 @@ def getFluxLink(browser):
 
 #bruteforce feed
 def getFluxBruteForce(browser):
+    print("[~] - Recherche de flux par bruteforce")
     listret = []
     base_url = browser.url
     for i in uri_feed:
@@ -66,6 +71,16 @@ def getFluxBruteForce(browser):
             listret.append(browser.url)
         time.sleep(1.5)
     return listret
+
+#check le sitemap.xml s'il existe
+def getSiteMapFlux(browser):
+    print("[~] - Tentative de récupération de flux en sitemap.xml")
+    base_url = browser.url
+    browser.open(base_url + "/sitemap.xml")
+    if(utils.sitemap_check(str(browser.parsed))):
+        return [browser.url]
+    else:
+        return []
 
 #identifier le CMS
 

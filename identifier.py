@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/usr/bin/env python3
 
 # Il va falloir sérieusement réfléchir au design
 # un identifier et un crawler me semblent foireux...

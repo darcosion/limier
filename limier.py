@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # un fix super chelou Oo
 # https://stackoverflow.com/questions/46457179/python3-cannot-import-name-cached-property
@@ -33,14 +33,22 @@ browser.open("https://" + args.domain)
 
 #moulinette, pour le moment locale
 listurl = []
-listResearch = [research.getFluxLink, research.getFluxBruteForce]
+listResearch = [research.getFluxLink
+                , research.getSiteMapFlux
+                , research.getFluxBruteForce]
 
 for i in listResearch:
     listurl = list(set(listurl) | set(i(browser)))
 
-#remove doublon '//'
+#gestion des résultats
+print('------------------------------------------')
+print("--- Traitement des résultats collectés ---")
+print('------------------------------------------')
+
+#retire tout un bordel...
 for n, i in enumerate(listurl):
-    listurl[n]= i.replace('//', '/').replace('http', '').replace('s:/', '').replace(':/', '')
+    listurl[n] = re.sub("http(s?)://", '', i)
+    listurl[n] = i.replace('//', '/')
 
 listurl = list(set(listurl))
 
