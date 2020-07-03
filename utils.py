@@ -15,11 +15,11 @@ def tld_check(domain):
 
 #vérifie si c'est bien un flux rss
 def rss_check(data):
-    if(re.match("<\?xml version=\"[0-9\.]*\" encoding=\".*\"\?>", data)):
+    if(re.match("<\?xml[ \n\r\t]*?version=(\"|\')[0-9\.]*(\"|\')[ \n\r\t]*?encoding=(\"|\').*(\"|\')\?>", data)):
         return True
-    elif(re.match("<rss version=\"[0-9\.]*\" *?>", data)):
+    elif(re.match("<rss[ \n\r\t]*?version=(\"|\')[0-9\.]*(\"|\')[ \n\r\t]*?>", data)):
         return True # regex à améliorer je pense
-    elif(re.match("<feed *?xmlns=\".*\" *?>", data)):
+    elif(re.match("<feed[ \n\r\t]*?xmlns=(\"|\').*(\"|\')[ \n\r\t]*?>", data)):
         return True
     else: #on m'a trompé, on m'a floué ! ><
         return False
@@ -27,11 +27,16 @@ def rss_check(data):
 
 #vérifie si c'est bien un sitemap (a voir si un sitemap est utile ?)
 def sitemap_check(data):
-    if(re.match("<\?xml version=\"[0-9\.]*\" encoding=\".*\"\?>", data)):
+    if(re.match("<\?xml[ \n\r\t]*?version=(\"|\')[0-9\.]*(\"|\')[ \n\r\t]*?encoding=(\"|\').*(\"|\')[ \n\r\t]*?\?>", data)):
         return True
-    elif(re.match("<urlset xmlns=\".*\">", data)):
+    elif(re.match("<urlset[ \n\r\t]*?xmlns=(\"|\').*(\"|\')[ \n\r\t]*?>", data)):
         return True
-    elif(re.match("<sitemapindex xmlns=\".*\">", data)):
+    elif(re.match("<sitemapindex[ \n\r\t]*?xmlns=(\"|\').*(\"|\')[ \n\r\t]*?>", data)):
+        return True
+    # Quelle est cet étrange objet à la dérive que l'on appelle "terre" ?
+    elif(re.match("<xsl\:stylesheet( |\n)*?version=(\"|\')[0-9\.]*(\"|\')[ \n\r\t]*?xmlns\:html=(\"|\').*(\"|\')[ \n\r\t]*?xmlns\:sitemap=(\"|\').*(\"|\')[ \n\r\t]*?xmlns\:xsl=(\"|\').*(\"|\')>", data)):
+        return True
+    elif(re.match("XML Sitemap Index", data)):
         return True
     else: # bon ben cépala...
         return False
