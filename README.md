@@ -8,20 +8,28 @@ Limier est un petit outil en CLI permettant de trouver un flux RSS quand il est 
 ```bash
 $ ./limier.py -h
 Limier par darcosion (https://github.com/darcosion/limier)
-usage: limier.py [-h] [-d DOMAIN]
+usage: limier.py [-h] [-d DOMAIN] [-a USER_AGENT]
+
 optional arguments:
   -h, --help            show this help message and exit
   -d DOMAIN, --domain DOMAIN
                         domain to investigate
+  -a USER_AGENT, --user-agent USER_AGENT
+                        User-agent to use
 ```
 
 ### Exemple : 
 ```bash
 $ ./limier.py -d rsscircus.com
-Limier par darcosion (https://github.com/darcosion)
-[+] - https://rsscircus.com/feed/
-[+] - https://rsscircus.com/feed/atom/
-[+] - https://rsscircus.com/comments/feed/
+Limier par darcosion (https://github.com/darcosion/limier)
+[~] - Tentative de récupération de flux type link.
+[~] - Tentative de récupération de flux en sitemap
+[~] - Tentative de récupération de flux depuis google
+------------------------------------------
+--- Traitement des résultats collectés ---
+------------------------------------------
+[+] - https:/rsscircus.com/comments/feed/
+[+] - https:/rsscircus.com/feed/
 ```
 
 ## TODO : 
