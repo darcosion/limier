@@ -44,6 +44,15 @@ browser = RoboBrowser(user_agent=user_agent
 assert utils.tld_check(args.domain), "le paramètre nom de domaine est incorrecte"
 browser.open("https://" + args.domain)
 
+# vérifie s'il y a une direction.
+if(browser.response.is_redirect):
+    if(browser.response.url != browser.url):
+        print("[x] - Redirection vers " + browser.response.url)
+        browser.open(browser.response.url)
+    else:
+        print("[x] - Redirection inutile " + browser.response.url)
+    
+
 #moulinette, pour le moment locale
 listurl = []
 listResearch = [research.getFluxLink
