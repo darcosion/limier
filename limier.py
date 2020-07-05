@@ -19,6 +19,12 @@ parser.add_argument("-d", "--domain", type=str,
                     help="domain to investigate")
 parser.add_argument('-a', "--user-agent", type=str,
                     help="User-agent to use")
+parser.add_argument('-b', "--bruteforce",
+                    help="Enable bruteforce for website",
+                    action="store_true")
+parser.add_argument('-s', "--search-engine",
+                    help="Enable search engine research",
+                    action="store_true")
 
 args = parser.parse_args()
 
@@ -41,9 +47,13 @@ browser.open("https://" + args.domain)
 #moulinette, pour le moment locale
 listurl = []
 listResearch = [research.getFluxLink
-                , research.getSiteMapFlux
-                , research.getFluxByGoogle
-                , research.getFluxBruteForce]
+                , research.getSiteMapFlux]
+
+if(args.bruteforce):
+    listResearch.append(research.getFluxBruteForce)
+
+if(args.search_engine):
+    listResearch.append(research.getFluxByGoogle)
 
 for i in listResearch:
     listurl = list(set(listurl) | set(i(browser)))
