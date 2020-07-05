@@ -124,13 +124,6 @@ def getFluxByGoogle(browser):
         print("[x] - google active le blocage de requête car trop de requête d'un coup")
         return listret
     return listret
-
-def getFluxByBing(browser):
-    print("[~] - Tentative de récupération de flux depuis bing")
-    listret = []
-    base_domain = re.sub("http(s?)://", '', browser.url).split('/')[0] # isole le domaine
-    
-    return listret
             
         
 
