@@ -35,7 +35,6 @@ Limier par darcosion (https://github.com/darcosion/limier)
 ```
 
 ## TODO : 
- - Traiter le http, https, les redirection 302 et 402, etc...
  - Ajouter une option de debug pour visualiser ce que fait limier
  - Exploration d'arborescence de site
  - Identification des CMS
