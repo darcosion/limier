@@ -12,6 +12,9 @@ def tld_check(domain):
             return False
     else:
         return False
+#enlève le protocol donné devant un domaine
+def protocol_remove(domain):
+    return domain.replace('/', '').replace(':', '').replace('https', '').replace('http', '')
 
 #vérifie si c'est bien un flux rss
 def rss_check(data):

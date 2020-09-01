@@ -2,7 +2,6 @@
 
 import time, re
 from urllib import error as urllibError
-from googlesearch import search as search_in_google
 
 #import local
 import utils
@@ -106,24 +105,6 @@ def getSiteMapFlux(browser):
     
     # c'est pas juste, tout le monde est sensé avoir un sitemap ! >.<
     return []
-
-#recherche depuis google
-def getFluxByGoogle(browser):
-    print("[~] - Tentative de récupération de flux depuis google")
-    listret = []
-    base_domain = re.sub("http(s?)://", '', browser.url).split('/')[0] # isole le domaine
-    try:
-        for i in search_in_google("rss " + "site:" + base_domain,
-                                  num=5,
-                                  user_agent=browser.session.headers['User-Agent']):
-            if(base_domain in i):
-                browser.open(i)
-                if(utils.rss_check(str(browser.parsed))):
-                    listret.append(i)
-    except urllibError.HTTPError:
-        print("[x] - google active le blocage de requête car trop de requête d'un coup")
-        return listret
-    return listret
             
         
 

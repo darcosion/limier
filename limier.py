@@ -6,6 +6,7 @@ import werkzeug
 werkzeug.cached_property = werkzeug.utils.cached_property
 
 from robobrowser import RoboBrowser
+from urllib.error import HTTPError
 import re, time, argparse
 
 #import locaux
@@ -21,9 +22,6 @@ parser.add_argument('-a', "--user-agent", type=str,
                     help="User-agent to use")
 parser.add_argument('-b', "--bruteforce",
                     help="Enable bruteforce for website",
-                    action="store_true")
-parser.add_argument('-s', "--search-engine",
-                    help="Enable search engine research",
                     action="store_true")
 
 args = parser.parse_args()
@@ -42,7 +40,15 @@ browser = RoboBrowser(user_agent=user_agent
 # TODO : faire une vérification du domaine pour être sur...)
 # une fonction réutilisable sera donc un plus, dans utils.py
 assert utils.tld_check(args.domain), "le paramètre nom de domaine est incorrecte"
-browser.open("https://" + args.domain)
+
+args.domain = utils.protocol_remove(args.domain)
+
+try:
+    browser.open("https://" + args.domain)
+except Exception as e:
+    print(args.domain)
+    #on essaie en http au cas où
+    browser.open("http://" + args.domain)
 
 # vérifie s'il y a une direction.
 if(browser.response.is_redirect):
@@ -60,9 +66,6 @@ listResearch = [research.getFluxLink
 
 if(args.bruteforce):
     listResearch.append(research.getFluxBruteForce)
-
-if(args.search_engine):
-    listResearch.append(research.getFluxByGoogle)
 
 for i in listResearch:
     listurl = list(set(listurl) | set(i(browser)))
