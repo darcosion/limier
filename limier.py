@@ -23,13 +23,16 @@ parser.add_argument('-a', "--user-agent", type=str,
 parser.add_argument('-b', "--bruteforce",
                     help="Enable bruteforce for website",
                     action="store_true")
+parser.add_argument('-f', "--frameworks",
+                    help="Enable framework identification",
+                    action="store_true")
 
 args = parser.parse_args()
 
 if(args.user_agent):
     user_agent = args.user_agent
 else:
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0'
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0'
 
 # Création d'un browser pour les recherches
 browser = RoboBrowser(user_agent=user_agent
@@ -46,7 +49,6 @@ args.domain = utils.protocol_remove(args.domain)
 try:
     browser.open("https://" + args.domain)
 except Exception as e:
-    print(args.domain)
     #on essaie en http au cas où
     browser.open("http://" + args.domain)
 
@@ -64,8 +66,13 @@ listurl = []
 listResearch = [research.getFluxLink
                 , research.getSiteMapFlux]
 
+
+
 if(args.bruteforce):
     listResearch.append(research.getFluxBruteForce)
+
+if(args.frameworks):
+    listResearch.append(research.frameworkIdentifier)
 
 for i in listResearch:
     listurl = list(set(listurl) | set(i(browser)))

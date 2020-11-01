@@ -4,7 +4,7 @@ import time, re
 from urllib import error as urllibError
 
 #import local
-import utils
+import utils, identifier
 
 #list URI feeds
 uri_feed = [
@@ -22,12 +22,15 @@ uri_feed = [
             '/feed/rss2/',
             '/feed/rdf/',
             '/feed/atom/'
+            #wordpress noncontinue
+            '/?feed=rss',
+            '/?feed=rss2',
+            '/?feed=rdf',
+            '/?feed=atom',
             # drupal
             '/rss.xml',
-            # SPIP
-            '/spip.php?page=backend',
-            '/spip.php?page=backend-breve',
-            '/spip.php?page=backend-sites',
+            #joomla
+            '/index.php?format=feed&type=rss',
             #django, due to doc :
             '/latest/feed/',
             '/sitenews',
@@ -48,7 +51,6 @@ uri_feed = [
 
 identifiers = [
     ""
-
     ]
 
 # récupère les fluxs présents en link simple
@@ -110,8 +112,19 @@ def getSiteMapFlux(browser):
 
 #identifier le CMS
 
-#def frameworkIdentifier(browser):
-    
+def frameworkIdentifier(browser):
+    print("[~] - Identification framework")
+    socnet = identifier.SocialNetwork()
+    snrss = socnet.getRSS(browser)
+    if(snrss != False):
+        return [snrss]
+    del socnet, snrss
+    spipnet = identifier.spip()
+    spiprss = spipnet.getRSS(browser)
+    if(spiprss != []):
+        return spiprss
+    del spipnet, spiprss
+    return []
         
     
 # TODO : faire la "taxonomy de feed" de drupal en fonction
