@@ -59,6 +59,7 @@ def getFluxLink(browser):
     print("[~] - Tentative de récupération de flux type link.")
     listret = []
     fluxlist = browser.find_all('link', attrs={'type':"application/rss+xml"})
+    fluxlist += browser.find_all('link', attrs={'type':"application/atom+xml"})
     for i in fluxlist:
         if(i.has_attr('href')):
            listret.append(i.attrs['href'])
