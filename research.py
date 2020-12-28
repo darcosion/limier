@@ -60,6 +60,7 @@ def getFluxLink(browser):
     listret = []
     fluxlist = browser.find_all('link', attrs={'type':"application/rss+xml"})
     fluxlist += browser.find_all('link', attrs={'type':"application/atom+xml"})
+    fluxlist += browser.find_all('link', attrs={'type':"application/rdf+xml"})
     for i in fluxlist:
         if(i.has_attr('href')):
            listret.append(i.attrs['href'])
