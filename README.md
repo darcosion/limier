@@ -1,7 +1,7 @@
 (for english people, [I've made a quick README](/README.en.md), but I don't want to do many support in english, so you can improve with pull request if you want)
 
 # limier
-Limier est un petit outil en CLI permettant de trouver un flux RSS quand il est planqué sur un site.
+Limier is a small utility to crawl a site and discover the rss feeds.
 
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 
@@ -34,17 +34,17 @@ optional arguments:
 ### Exemple : 
 ```bash
 $ ./limier.py -d community.mybb.com
-Limier par darcosion (https://github.com/darcosion/limier)
+Limier by darcosion (https://github.com/darcosion/limier)
 [~] - Tentative de récupération de flux type link.
-[~] - Tentative de récupération de flux en sitemap
+[~] - Attempt to retrieve feed in sitemap
 ------------------------------------------
---- Traitement des résultats collectés ---
+---  How to handle the results.  ---
 ------------------------------------------
 [+] - https:/community.mybb.com/syndication.php
 
 ```
 
 ## TODO : 
- - Ajouter une option de debug pour visualiser ce que fait limier
- - Exploration d'arborescence de site
- - Identification des CMS
+ - Add adebug option to visualize what limier is doing. 
+ - Explore the site tree. 
+ - Recognize which CMS a site is using. 
