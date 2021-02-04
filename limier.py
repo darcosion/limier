@@ -42,22 +42,19 @@ if __name__ == "__main__":
                         help="Indicate each actions",
                         action="store_true", default=False)
     args = parser.parse_args()
-
+    
+    
     if(args.user_agent):
         user_agent = args.user_agent
     else:
         user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0'
     
-    #gestion de la verbosité
-    console.limierVerbose = args.verbose
     #créaction d'un décorateur rich pour s'assurer que la verbosité est respecté
-    def limierLog(*args):
-        if(console.limierVerbose):
-            return console.log(*args)
+    def limierLog(*param):
+        if(args.verbose):
+            return console.log(*param)
         else:
             return
-    
-    console.limierLog = limierLog
 
     # Création d'un browser pour les recherches
     browser = RoboBrowser(user_agent=user_agent
@@ -80,10 +77,10 @@ if __name__ == "__main__":
     # vérifie s'il y a une direction.
     if(browser.response.is_redirect):
         if(browser.response.url != browser.url):
-            console.limierLog("[x] - Redirection vers " + browser.response.url)
+            limierLog("Redirection vers " + browser.response.url)
             browser.open(browser.response.url)
         else:
-            console.limierLog("[x] - Pas de redirection")
+            limierLog("Pas de redirection")
         
 
     #moulinette, pour le moment locale
@@ -99,8 +96,8 @@ if __name__ == "__main__":
     if(args.frameworks):
         listResearch.append(research.frameworkIdentifier)
 
-    for i in richTrack(listResearch, description = 'Researching RSS') if not console.limierVerbose else listResearch:
-        listurl = list(set(listurl) | set(i(browser, console)))
+    for i in richTrack(listResearch, description = 'Researching RSS') if not args.verbose else listResearch:
+        listurl = list(set(listurl) | set(i(browser, limierLog)))
 
     #gestion des résultats
     console.print(richPanel("\n--- Traitement des résultats collectés ---\n\n"))

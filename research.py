@@ -55,8 +55,8 @@ identifiers = [
 
 # récupère les fluxs présents en link simple
 # TODO : investiguer le format RDF pour RSS ? 
-def getFluxLink(browser, console):
-    console.limierLog("Tentative de récupération de flux type link.")
+def getFluxLink(browser, limierLog):
+    limierLog("Tentative de récupération de flux type link.")
     listret = []
     fluxlist = browser.find_all('link', attrs={'type':"application/rss+xml"})
     fluxlist += browser.find_all('link', attrs={'type':"application/atom+xml"})
@@ -67,8 +67,8 @@ def getFluxLink(browser, console):
     return listret
 
 #bruteforce feed
-def getFluxBruteForce(browser, console):
-    console.limierLog("Recherche de flux par bruteforce ಠ_ಠ")
+def getFluxBruteForce(browser, limierLog):
+    limierLog("Recherche de flux par bruteforce ಠ_ಠ")
     listret = []
     base_url = browser.url
     for i in uri_feed:
@@ -85,8 +85,8 @@ def getFluxBruteForce(browser, console):
 
 #check le sitemap.xml s'il existe
 # TODO, traiter tous les cas de redirection vers xsl...
-def getSiteMapFlux(browser, console):
-    console.limierLog("Tentative de récupération de flux en sitemap")
+def getSiteMapFlux(browser, limierLog):
+    limierLog("Tentative de récupération de flux en sitemap")
     base_url = browser.url
     browser.open(base_url + "/sitemap.xml")
     #check si redirection
@@ -114,14 +114,14 @@ def getSiteMapFlux(browser, console):
 
 #identifier le CMS
 
-def frameworkIdentifier(browser, console):
-    console.limierLog("Identification framework")
-    socnet = identifier.SocialNetwork(console)
+def frameworkIdentifier(browser, limierLog):
+    limierLog("Identification framework")
+    socnet = identifier.SocialNetwork(limierLog)
     snrss = socnet.getRSS(browser)
     if(snrss != False):
         return [snrss]
     del socnet, snrss
-    spipnet = identifier.spip(console)
+    spipnet = identifier.spip(limierLog)
     spiprss = spipnet.getRSS(browser)
     if(spiprss != []):
         return spiprss

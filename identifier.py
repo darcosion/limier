@@ -7,8 +7,8 @@
 # TODO : faire la "taxonomy de feed" de drupal en fonction
 
 class spip:
-    def __init__(self, console):
-        self.console = console
+    def __init__(self, limierLog):
+        self.limierLog = limierLog
         self.id_spip = range(0, 3000)
 
     def spipIden(self, browser):
@@ -46,26 +46,26 @@ class spip:
 
 
 class SocialNetwork():
-    def __init__(self, console):
-        self.console = console
+    def __init__(self, limierLog):
+        self.limierLog = limierLog
         return
 
     def identifyWix(self, browser):
         if(browser.find("meta", attrs={"content":'Wix.com Website Builder'})):
-           console.limierLog("Identification Wix")
+           self.limierLog("Identification Wix")
            return True
         if(browser.find("meta", attrs={"http-equiv":"X-Wix-Meta-Site-Id"})):
-           console.limierLog("Identification Wix")
+           self.limierLog("Identification Wix")
            return True
         if(browser.find("meta", attrs={"http-equiv":"X-Wix-Published-Version"})):
-           console.limierLog("Identification Wix")
+           self.limierLog("Identification Wix")
            return True
         return False
 
     def identifyPinterest(self, browser):
         if(browser.find("meta", attrs={"property":'og:site_name',
                                        "content":'Pinterest'})):
-           console.limierLog("Identification Pinterest")
+           self.limierLog("Identification Pinterest")
            return True
         return False
 
@@ -78,7 +78,7 @@ class SocialNetwork():
     def identifyBlogspot(self, browser):
         if(browser.find("meta", attrs={"content":"blogger",
                                        "name":"generator"})):
-            console.limierLog("Identification Blogspot")
+            self.limierLog("Identification Blogspot")
             return True
         return False
 
