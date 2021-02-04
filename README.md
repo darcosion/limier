@@ -45,6 +45,6 @@ Limier par darcosion (https://github.com/darcosion/limier)
 ```
 
 ## TODO : 
- - Ajouter une option de debug pour visualiser ce que fait limier
+ - Identification des forums
  - Exploration d'arborescence de site
  - Vérification de cohérence des feed rss
