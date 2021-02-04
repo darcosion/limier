@@ -7,88 +7,121 @@ werkzeug.cached_property = werkzeug.utils.cached_property
 
 from robobrowser import RoboBrowser
 from urllib.error import HTTPError
+from rich.console import Console as richConsole
+
+# imports custom rich
+from rich.progress import track as richTrack
+from rich.panel import Panel as richPanel
+from rich.table import Table as richTable
+
 import re, time, argparse
 
 #import locaux
 import research, utils
 
-print("Limier par darcosion (https://github.com/darcosion/limier)")
-
-# paramètres de CLI
-parser = argparse.ArgumentParser()
-parser.add_argument("-d", "--domain", type=str,
-                    help="domain to investigate")
-parser.add_argument('-a', "--user-agent", type=str,
-                    help="User-agent to use")
-parser.add_argument('-b', "--bruteforce",
-                    help="Enable bruteforce for website",
-                    action="store_true")
-parser.add_argument('-f', "--frameworks",
-                    help="Enable framework identification",
-                    action="store_true")
-
-args = parser.parse_args()
-
-if(args.user_agent):
-    user_agent = args.user_agent
-else:
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0'
-
-# Création d'un browser pour les recherches
-browser = RoboBrowser(user_agent=user_agent
-                      , history=True
-                      , parser='html.parser'
-                      , allow_redirects=False)
-
-# TODO : faire une vérification du domaine pour être sur...)
-# une fonction réutilisable sera donc un plus, dans utils.py
-assert utils.tld_check(args.domain), "le paramètre nom de domaine est incorrecte"
-
-args.domain = utils.protocol_remove(args.domain)
-
-try:
-    browser.open("https://" + args.domain)
-except Exception as e:
-    #on essaie en http au cas où
-    browser.open("http://" + args.domain)
-
-# vérifie s'il y a une direction.
-if(browser.response.is_redirect):
-    if(browser.response.url != browser.url):
-        print("[x] - Redirection vers " + browser.response.url)
-        browser.open(browser.response.url)
-    else:
-        print("[x] - Redirection inutile " + browser.response.url)
+#on vérifie qu'on est bien lancé en "main" :
+if __name__ == "__main__": 
+    #on lance rich 
+    console = richConsole()
     
+    console.print("Limier par darcosion (https://github.com/darcosion/limier)")
+    
+    # paramètres de CLI
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--domain", type=str,
+                        help="domain to investigate")
+    parser.add_argument('-a', "--user-agent", type=str,
+                        help="User-agent to use")
+    parser.add_argument('-b', "--bruteforce",
+                        help="Enable bruteforce for website",
+                        action="store_true")
+    parser.add_argument('-f', "--frameworks",
+                        help="Enable framework identification",
+                        action="store_true")
+    parser.add_argument('-v', "--verbose",
+                        help="Indicate each actions",
+                        action="store_true", default=False)
+    args = parser.parse_args()
 
-#moulinette, pour le moment locale
-listurl = []
-listResearch = [research.getFluxLink
-                , research.getSiteMapFlux]
+    if(args.user_agent):
+        user_agent = args.user_agent
+    else:
+        user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0'
+    
+    #gestion de la verbosité
+    console.limierVerbose = args.verbose
+    #créaction d'un décorateur rich pour s'assurer que la verbosité est respecté
+    def limierLog(*args):
+        if(console.limierVerbose):
+            return console.log(*args)
+        else:
+            return
+    
+    console.limierLog = limierLog
+
+    # Création d'un browser pour les recherches
+    browser = RoboBrowser(user_agent=user_agent
+                          , history=True
+                          , parser='html.parser'
+                          , allow_redirects=False)
+
+    # TODO : faire une vérification du domaine pour être sur...)
+    # une fonction réutilisable sera donc un plus, dans utils.py
+    assert utils.tld_check(args.domain), "le paramètre nom de domaine est incorrecte"
+
+    args.domain = utils.protocol_remove(args.domain)
+
+    try:
+        browser.open("https://" + args.domain)
+    except Exception as e:
+        #on essaie en http au cas où
+        browser.open("http://" + args.domain)
+
+    # vérifie s'il y a une direction.
+    if(browser.response.is_redirect):
+        if(browser.response.url != browser.url):
+            console.limierLog("[x] - Redirection vers " + browser.response.url)
+            browser.open(browser.response.url)
+        else:
+            console.limierLog("[x] - Pas de redirection")
+        
+
+    #moulinette, pour le moment locale
+    listurl = []
+    listResearch = [research.getFluxLink
+                    , research.getSiteMapFlux]
 
 
 
-if(args.bruteforce):
-    listResearch.append(research.getFluxBruteForce)
+    if(args.bruteforce):
+        listResearch.append(research.getFluxBruteForce)
 
-if(args.frameworks):
-    listResearch.append(research.frameworkIdentifier)
+    if(args.frameworks):
+        listResearch.append(research.frameworkIdentifier)
 
-for i in listResearch:
-    listurl = list(set(listurl) | set(i(browser)))
+    for i in richTrack(listResearch, description = 'Researching RSS') if not console.limierVerbose else listResearch:
+        listurl = list(set(listurl) | set(i(browser, console)))
 
-#gestion des résultats
-print('------------------------------------------')
-print("--- Traitement des résultats collectés ---")
-print('------------------------------------------')
+    #gestion des résultats
+    console.print(richPanel("\n--- Traitement des résultats collectés ---\n\n"))
 
-#retire tout un bordel...
-for n, i in enumerate(listurl):
-    listurl[n] = re.sub("http(s?)://", '', i)
-    listurl[n] = i.replace('//', '/')
+    #retire tout un bordel...
+    for n, i in enumerate(listurl):
+        listurl[n] = re.sub("http(s?)://", '', i)
+        listurl[n] = i.replace('//', '/')
 
-listurl = list(set(listurl))
-
-for i in listurl:
-    print("[+] - " + i )
-                   
+    listurl = list(set(listurl))
+    
+    if(len(listurl) > 0):
+        #on crée une table pour affichage rich
+        table = richTable(show_lines=True)
+        
+        table.add_column("Liste des fluxs RSS", justify="right", no_wrap=True)
+        
+        for i in listurl:
+            table.add_row(i)
+        
+        console.print(table)
+    else:
+        console.print("aucun flux trouvé :disappointed:")
+    
