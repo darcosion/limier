@@ -33,14 +33,22 @@ optional arguments:
 
 ### Exemple : 
 ```bash
-$ ./limier.py -d community.mybb.com
+$ python3 limier.py -d armadito.com -b -f
 Limier par darcosion (https://github.com/darcosion/limier)
-[~] - Tentative de récupération de flux type link.
-[~] - Tentative de récupération de flux en sitemap
-------------------------------------------
---- Traitement des résultats collectés ---
-------------------------------------------
-[+] - https:/community.mybb.com/syndication.php
+Researching RSS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+╭────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                        │
+│ --- Traitement des résultats collectés ---                                             │
+│                                                                                        │
+│                                                                                        │
+╰────────────────────────────────────────────────────────────────────────────────────────╯
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                              Liste des fluxs RSS ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│        https:/www.armadito.com/sitemap.xml/feed/ │
+├──────────────────────────────────────────────────┤
+│ https:/www.armadito.com/sitemap.xml/latest/feed/ │
+└──────────────────────────────────────────────────┘
 
 ```
 
