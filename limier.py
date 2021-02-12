@@ -104,8 +104,13 @@ if __name__ == "__main__":
 
     #retire tout un bordel...
     for n, i in enumerate(listurl):
-        listurl[n] = re.sub("http(s?)://", '', i)
-        listurl[n] = i.replace('//', '/')
+        listurl[n] = re.sub("http(s?):(\/?)\/", '', listurl[n])
+        #print(args.domain)
+        #print(utils.tld_check(listurl[n]))
+        #print(listurl[n])
+        if(not utils.tld_check(listurl[n])):
+            listurl[n] = args.domain + '/' + listurl[n]
+        listurl[n] = listurl[n].replace('//', '/')
 
     listurl = list(set(listurl))
     

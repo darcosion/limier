@@ -2,10 +2,14 @@
 
 import re
 
-# vérifie si il y a bien un nom de domaine
+#vérifie si il y a bien un nom de domaine
 def tld_check(domain):
-    check = re.findall("^([aA-zZ\-]*\.)*[aA-zZ]*", domain)
+    check = re.findall(r"^[aA-zZ\-]*\.[aA-zZ\-\.]*\/?", domain)
     if(check != None):
+        # on dégage les faux noms de domaine
+        for i in range(len(check)):
+            if any(ext in check[i]for ext in ['.php', '.js', '.html', '.asp', '.spx', '.phtml', '.jsp', '.cgi', '.swf', '.ashx']):
+                del check[i]
         if(len(check) == 1):
             return True
         else:
@@ -43,4 +47,3 @@ def sitemap_check(data):
         return True
     else: # bon ben cépala...
         return False
-        
