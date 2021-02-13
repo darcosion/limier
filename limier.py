@@ -63,10 +63,8 @@ if __name__ == "__main__":
                           , allow_redirects=False)
 
     # TODO : faire une vérification du domaine pour être sur...)
-    # une fonction réutilisable sera donc un plus, dans utils.py
-    assert utils.tld_check(args.domain), "le paramètre nom de domaine est incorrecte"
-
     args.domain = utils.protocol_remove(args.domain)
+    assert utils.tld_check(args.domain), "le paramètre nom de domaine est incorrecte"
 
     try:
         browser.open("https://" + args.domain)

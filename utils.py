@@ -4,7 +4,7 @@ import re
 
 #vérifie si il y a bien un nom de domaine
 def tld_check(domain):
-    check = re.findall(r"^(http(s)?:\/\/)?[aA-zZ\-]*\.[aA-zZ\-\.]*\/?", domain)
+    check = re.findall(r"^[aA-zZ\-]*\.[aA-zZ\-\.]*\/?", domain)
     if(check != None):
         # on dégage les faux noms de domaine
         for i in range(len(check)):
