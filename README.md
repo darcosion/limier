@@ -15,42 +15,11 @@ pip3 install requirements.txt
 
 ## Usage
 
-```bash
-$ ./limier.py -h
-Limier par darcosion (https://github.com/darcosion/limier)
-usage: limier.py [-h] [-d DOMAIN] [-a USER_AGENT] [-b] [-s]
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -d DOMAIN, --domain DOMAIN
-                        domain to investigate
-  -a USER_AGENT, --user-agent USER_AGENT
-                        User-agent to use
-  -b, --bruteforce      Enable bruteforce for website
-  -s, --search-engine   Enable search engine research
-
-```
+![example help image](limierhelp.png)
 
 ### Exemple : 
-```bash
-$ python3 limier.py -d armadito.com -b -f
-Limier par darcosion (https://github.com/darcosion/limier)
-Researching RSS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
-╭────────────────────────────────────────────────────────────────────────────────────────╮
-│                                                                                        │
-│ --- Traitement des résultats collectés ---                                             │
-│                                                                                        │
-│                                                                                        │
-╰────────────────────────────────────────────────────────────────────────────────────────╯
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃                              Liste des fluxs RSS ┃
-┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
-│        https:/www.armadito.com/sitemap.xml/feed/ │
-├──────────────────────────────────────────────────┤
-│ https:/www.armadito.com/sitemap.xml/latest/feed/ │
-└──────────────────────────────────────────────────┘
 
-```
+![Example image](limier.png)
 
 ## TODO : 
  - Identification des forums
