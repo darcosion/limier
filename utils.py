@@ -4,7 +4,7 @@ import re
 
 #vérifie si il y a bien un nom de domaine
 def tld_check(domain):
-    check = re.findall(r"^[aA-zZ\-]*\.[aA-zZ\-\.]*\/?", domain)
+    check = re.findall(r"^[aA-zZ0-9\-]*\.[aA-zZ0-9\-\.]*\/?", domain)
     if(check != None):
         # on dégage les faux noms de domaine
         for i in range(len(check)):
@@ -16,6 +16,21 @@ def tld_check(domain):
             return False
     else:
         return False
+
+def url_check(url):
+    check = re.findall(r"^(http(s)?:\/\/)[aA-zZ\-]*\.[aA-zZ\-\.]*\/?", url)
+    if(check != None):
+        # on dégage les faux noms de domaine
+        for i in range(len(check)):
+            if any(ext in check[i]for ext in ['.php', '.js', '.html', '.asp', '.spx', '.phtml', '.jsp', '.cgi', '.swf', '.ashx']):
+                del check[i]
+        if(len(check) == 1):
+            return True
+        else:
+            return False
+    else:
+        return False
+
 #enlève le protocol donné devant un domaine
 def protocol_remove(domain):
     return domain.replace('/', '').replace(':', '').replace('https', '').replace('http', '')
