@@ -94,7 +94,8 @@ def getSiteMapFlux(browser, limierLog):
         if(browser.response.url != browser.url):
             browser.open(browser.response.url)
         elif('Location' in browser.response.headers):
-            browser.open(browser.response.headers['Location'])
+            if(utils.url_check(browser.response.headers['Location'])):
+                browser.open(browser.response.headers['Location'])
         else:
             return []
     

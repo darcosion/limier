@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
     if(args.frameworks):
         listResearch.append(research.frameworkIdentifier)
-
+    
     for i in richTrack(listResearch, description = 'Researching RSS') if not args.verbose else listResearch:
         listurl = list(set(listurl) | set(i(browser, limierLog)))
 
