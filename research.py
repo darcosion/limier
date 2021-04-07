@@ -46,7 +46,9 @@ uri_feed = [
             '/index.php?action=.xml;type=rss',
             '/external?type=rss2',
             # ouest france blog
-            '/index.rss'
+            '/index.rss',
+            # WIX blog
+            '/blog-feed.xml'
             ]
 
 identifiers = [
