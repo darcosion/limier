@@ -56,7 +56,6 @@ identifiers = [
     ]
 
 # récupère les fluxs présents en link simple
-# TODO : investiguer le format RDF pour RSS ? 
 def getFluxLink(browser, limierLog):
     limierLog("Tentative de récupération de flux type link.")
     listret = []
