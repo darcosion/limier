@@ -39,11 +39,11 @@ def protocol_remove(domain):
 def rss_check(data):
     if(type(data) is bytes):
         data = data.decode('utf-8')
-    if(re.match("<\?xml[ \n\r\t]*?version=(\"|\')[0-9\.]*(\"|\')[ \n\r\t]*?encoding=(\"|\').*(\"|\')\?>", data)):
+    if(re.search("<\?xml[ \n\r\t]*?version=(\"|\')[0-9\.]*(\"|\')[ \n\r\t]*?encoding=(\"|\').*(\"|\')\?>", data)):
         return True
-    elif(re.match("<rss[ \n\r\t]*?version=(\"|\')[0-9\.]*(\"|\')[ \n\r\t]*?", data)):
+    elif(re.search("<rss[ \n\r\t]*?version=(\"|\')[0-9\.]*(\"|\')[ \n\r\t]*?", data)):
         return True # regex à améliorer je pense
-    elif(re.match("<feed[ \n\r\t]*?xmlns=(\"|\').*(\"|\')[ \n\r\t]*?", data)):
+    elif(re.search("<feed[ \n\r\t]*?xmlns=(\"|\').*(\"|\')[ \n\r\t]*?", data)):
         return True
     else: #on m'a trompé, on m'a floué ! ><
         return False
