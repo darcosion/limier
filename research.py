@@ -51,10 +51,6 @@ uri_feed = [
             '/blog-feed.xml'
             ]
 
-identifiers = [
-    ""
-    ]
-
 # récupère les fluxs présents en link simple
 def getFluxLink(browser, limierLog):
     limierLog("Tentative de récupération de flux type link.")
