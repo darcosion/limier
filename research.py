@@ -63,6 +63,46 @@ def getFluxLink(browser, limierLog):
            listret.append(i.attrs['href'])
     return listret
 
+def getPossibleFluxLink(browser, limierLog, depth=0):
+    # on s'assure de ne pas faire de boucle infinie :
+    if(depth > 3):
+        return
+    limierLog("Tentative de récupération de flux type href.")
+    base_url = browser.url
+    listret = []
+    listlink = browser.find_all('a')
+    for i in listlink:
+        try:
+            if(("feed" in i.attrs['href']) or
+               ("rss" in i.attrs['href']) or
+               ("RSS" in i.attrs['href']) or
+               ("atom" in i.attrs['href'])):
+                # on passe les cas déjà traités
+                if(i.attrs['href'] in listret):
+                    continue
+                browser.follow_link(i)
+                # on brise la boucle si le lien est identique :
+                if(browser.url == base_url):
+                    browser.back()
+                    continue
+                # on vérifie si c'est bien un flux rss
+                if(utils.rss_check(browser.response.content)):
+                    listret.append(i.attrs['href'])
+                # on vérifie qu'il n'y a pas de liste de flux sinon
+                elif(base_url in browser.url):
+                    ## trouver un moyen de faire back ou ici ou de dessous
+                    listret += getPossibleFluxLink(browser, limierLog, depth=depth+1)
+                    browser.back()
+                else:
+                    #il n'y a rien à faire
+                    browser.back()
+        except KeyError as e:
+            pass
+        except Exception as e:
+            raise e
+    browser.open(base_url)
+    return listret
+
 #bruteforce feed
 def getFluxBruteForce(browser, limierLog):
     limierLog("Recherche de flux par bruteforce ಠ_ಠ")
@@ -111,7 +151,6 @@ def getSiteMapFlux(browser, limierLog):
         
 
 #identifier le CMS
-
 def frameworkIdentifier(browser, limierLog):
     limierLog("Identification framework")
     socnet = identifier.SocialNetwork(limierLog)
