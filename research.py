@@ -51,12 +51,7 @@ uri_feed = [
             '/blog-feed.xml'
             ]
 
-identifiers = [
-    ""
-    ]
-
 # récupère les fluxs présents en link simple
-# TODO : investiguer le format RDF pour RSS ?
 def getFluxLink(browser, limierLog):
     limierLog("Tentative de récupération de flux type link.")
     listret = []
@@ -66,6 +61,46 @@ def getFluxLink(browser, limierLog):
     for i in fluxlist:
         if(i.has_attr('href')):
            listret.append(i.attrs['href'])
+    return listret
+
+def getPossibleFluxLink(browser, limierLog, depth=0):
+    # on s'assure de ne pas faire de boucle infinie :
+    if(depth > 3):
+        return
+    limierLog("Tentative de récupération de flux type href.")
+    base_url = browser.url
+    listret = []
+    listlink = browser.find_all('a')
+    for i in listlink:
+        try:
+            if(("feed" in i.attrs['href']) or
+               ("rss" in i.attrs['href']) or
+               ("RSS" in i.attrs['href']) or
+               ("atom" in i.attrs['href']) or
+               ("syndication" in i.attrs['href'])):
+                # on passe les cas déjà traités
+                if(i.attrs['href'] in listret):
+                    continue
+                browser.follow_link(i)
+                # on brise la boucle si le lien est identique :
+                if(browser.url == base_url):
+                    browser.back()
+                    continue
+                # on vérifie si c'est bien un flux rss
+                if(utils.rss_check(browser.response.content)):
+                    listret.append(i.attrs['href'])
+                # on vérifie qu'il n'y a pas de liste de flux sinon
+                elif(base_url in browser.url):
+                    listret += getPossibleFluxLink(browser, limierLog, depth=depth+1)
+                    browser.back()
+                else:
+                    # l'url n'est pas un flux rss ou ne mène pas vers un flux a priori
+                    browser.back()
+        except KeyError as e:
+            pass
+        except Exception as e:
+            raise e
+    browser.open(base_url)
     return listret
 
 #bruteforce feed
@@ -116,7 +151,6 @@ def getSiteMapFlux(browser, limierLog):
 
 
 #identifier le CMS
-
 def frameworkIdentifier(browser, limierLog):
     limierLog("Identification framework")
     socnet = identifier.SocialNetwork(limierLog)

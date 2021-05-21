@@ -5,6 +5,13 @@ Limier est un petit outil en CLI permettant de trouver un flux RSS quand il est 
 
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 
+## fonctionnalités
+
+ - obtention de flux rss visuellement caché mais dont le lien existe
+ - bruteforce de chemins possible de flux rss
+ - détection de framework et énumération de flux possible par framework (drupal, spip, RS, etc...)
+ - recherche de flux rss via sitemap
+
 ## installation
 
 ```
@@ -23,5 +30,4 @@ pip3 install requirements.txt
 
 ## TODO : 
  - Identification des forums
- - Exploration d'arborescence de site
  - Vérification de cohérence des feed rss

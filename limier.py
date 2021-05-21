@@ -7,9 +7,9 @@ werkzeug.cached_property = werkzeug.utils.cached_property
 
 from robobrowser import RoboBrowser
 from urllib.error import HTTPError
-from rich.console import Console as richConsole
 
 # imports custom rich
+from rich.console import Console as richConsole
 from rich.progress import track as richTrack
 from rich.panel import Panel as richPanel
 from rich.table import Table as richTable
@@ -84,7 +84,8 @@ if __name__ == "__main__":
     #moulinette, pour le moment locale
     listurl = []
     listResearch = [research.getFluxLink
-                    , research.getSiteMapFlux]
+                    ,research.getPossibleFluxLink
+                    ,research.getSiteMapFlux]
 
 
 
