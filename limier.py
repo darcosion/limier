@@ -2,7 +2,7 @@
 
 # un fix super chelou Oo
 # https://stackoverflow.com/questions/46457179/python3-cannot-import-name-cached-property
-import werkzeug 
+import werkzeug
 werkzeug.cached_property = werkzeug.utils.cached_property
 
 from robobrowser import RoboBrowser
@@ -20,12 +20,12 @@ import re, time, argparse
 import research, utils
 
 #on vérifie qu'on est bien lancé en "main" :
-if __name__ == "__main__": 
-    #on lance rich 
+if __name__ == "__main__":
+    #on lance rich
     console = richConsole()
-    
+
     console.print("Limier par darcosion (https://github.com/darcosion/limier)")
-    
+
     # paramètres de CLI
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--domain", type=str,
@@ -42,13 +42,13 @@ if __name__ == "__main__":
                         help="Indicate each actions",
                         action="store_true", default=False)
     args = parser.parse_args()
-    
-    
+
+
     if(args.user_agent):
         user_agent = args.user_agent
     else:
         user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0'
-    
+
     #créaction d'un décorateur rich pour s'assurer que la verbosité est respecté
     def limierLog(*param):
         if(args.verbose):
@@ -79,7 +79,7 @@ if __name__ == "__main__":
             browser.open(browser.response.url)
         else:
             limierLog("Pas de redirection")
-        
+
 
     #moulinette, pour le moment locale
     listurl = []
@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
     if(args.frameworks):
         listResearch.append(research.frameworkIdentifier)
-    
+
     for i in richTrack(listResearch, description = 'Researching RSS') if not args.verbose else listResearch:
         listurl = list(set(listurl) | set(i(browser, limierLog)))
 
@@ -111,17 +111,16 @@ if __name__ == "__main__":
         listurl[n] = listurl[n].replace('//', '/')
 
     listurl = list(set(listurl))
-    
+
     if(len(listurl) > 0):
         #on crée une table pour affichage rich
         table = richTable(show_lines=True)
-        
+
         table.add_column("Liste des fluxs RSS", justify="right", no_wrap=True)
-        
+
         for i in listurl:
             table.add_row(i)
-        
+
         console.print(table)
     else:
         console.print("aucun flux trouvé :disappointed:")
-    

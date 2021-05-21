@@ -56,7 +56,7 @@ identifiers = [
     ]
 
 # récupère les fluxs présents en link simple
-# TODO : investiguer le format RDF pour RSS ? 
+# TODO : investiguer le format RDF pour RSS ?
 def getFluxLink(browser, limierLog):
     limierLog("Tentative de récupération de flux type link.")
     listret = []
@@ -74,7 +74,7 @@ def getFluxBruteForce(browser, limierLog):
     listret = []
     base_url = browser.url
     for i in uri_feed:
-        browser.open(base_url + i)
+        browser.open(base_url + i, verify=False)
         if(not browser.response.ok):
             pass
         else:
@@ -90,17 +90,17 @@ def getFluxBruteForce(browser, limierLog):
 def getSiteMapFlux(browser, limierLog):
     limierLog("Tentative de récupération de flux en sitemap")
     base_url = browser.url
-    browser.open(base_url + "/sitemap.xml")
+    browser.open(base_url + "/sitemap.xml", verify=False)
     #check si redirection
     if(browser.response.is_redirect):
         if(browser.response.url != browser.url):
             browser.open(browser.response.url)
         elif('Location' in browser.response.headers):
             if(utils.url_check(browser.response.headers['Location'])):
-                browser.open(browser.response.headers['Location'])
+                browser.open(browser.response.headers['Location'], verify=False)
         else:
             return []
-    
+
     if(not browser.response.ok):
         return []
     if(utils.sitemap_check(str(browser.parsed))):
@@ -109,11 +109,11 @@ def getSiteMapFlux(browser, limierLog):
 ##    browser.open(base_url + "/sitemap.xsl")
 ##    if(utils.sitemap_check(str(browser.parsed))):
 ##        return [browser.url]
-    
+
     # c'est pas juste, tout le monde est sensé avoir un sitemap ! >.<
     return []
-            
-        
+
+
 
 #identifier le CMS
 
