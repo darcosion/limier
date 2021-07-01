@@ -38,6 +38,8 @@ if __name__ == "__main__":
     parser.add_argument('-f', "--frameworks",
                         help="Enable framework identification",
                         action="store_true")
+    parser.add_argument('-o', "--output",
+                        help="output file format OPLM")
     parser.add_argument('-v', "--verbose",
                         help="Indicate each actions",
                         action="store_true", default=False)
@@ -123,5 +125,11 @@ if __name__ == "__main__":
             table.add_row(i)
 
         console.print(table)
+
+        if(args.output != None):
+            console.print(richPanel("\n--- export dans un fichier OPLM ---\n\n"))
+            f = open(args.output, 'w')
+            f.write(utils.opml_file(listurl))
+            f.close()
     else:
         console.print("aucun flux trouvé :disappointed:")

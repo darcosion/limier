@@ -64,3 +64,18 @@ def sitemap_check(data):
         return True
     else: # bon ben cépala...
         return False
+
+#créé le contenu d'un fichier OPLM
+def opml_file(listurl):
+    basestart = """<?xml version="1.0" encoding="utf-8"?>
+                    <opml version="1.0">
+                        <head>
+                            <title>My Feeds</title>
+                        </head>
+                        <body>"""
+    basestop = """      </body>
+                    </opml> """
+    basecentre = ""
+    for i in listurl:
+        basecentre += """<outline type="rss" xmlUrl="{0}"/>\n""".format(i)
+    return basestart + basecentre + basestop
