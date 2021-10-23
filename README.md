@@ -17,7 +17,7 @@ Limier est un petit outil en CLI permettant de trouver un flux RSS quand il est 
 ```
 git clone  https://github.com/darcosion/limier
 cd limier 
-pip3 install requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ## Usage
