@@ -37,7 +37,6 @@ def protocol_remove(domain):
 
 #vérifie si c'est bien un flux rss
 def rss_check(data):
-    print(data[1280:1300])
     if(type(data) is bytes):
         data = data.decode('utf-8', 'replace')
     if(re.search("<\?xml[ \n\r\t]*?version=(\"|\')[0-9\.]*(\"|\')[ \n\r\t]*?encoding=(\"|\').*(\"|\')\?>", data)):
