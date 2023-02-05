@@ -52,7 +52,7 @@ uri_feed = [
             ]
 
 # récupère les fluxs présents en link simple
-def getFluxLink(browser, limierLog):
+def getFluxLink(browser, domain, limierLog):
     limierLog("Tentative de récupération de flux type link.")
     listret = []
     fluxlist = browser.find_all('link', attrs={'type':"application/rss+xml"})
@@ -63,12 +63,12 @@ def getFluxLink(browser, limierLog):
            listret.append(i.attrs['href'])
     return listret
 
-def getPossibleFluxLink(browser, limierLog, depth=0):
+def getPossibleFluxLink(browser, domain, limierLog, depth=0):
     # on s'assure de ne pas faire de boucle infinie :
     if(depth > 3):
         return
     limierLog("Tentative de récupération de flux type href.")
-    base_url = browser.url
+    base_url = domain
     listret = []
     listlink = browser.find_all('a')
     for i in listlink:
@@ -90,7 +90,7 @@ def getPossibleFluxLink(browser, limierLog, depth=0):
                 if(utils.rss_check(browser.response.content)):
                     listret.append(i.attrs['href'])
                 # on vérifie qu'il n'y a pas de liste de flux sinon
-                elif(base_url in browser.url):
+                elif(base_url in domain):
                     listret += getPossibleFluxLink(browser, limierLog, depth=depth+1)
                     browser.back()
                 else:
@@ -104,27 +104,31 @@ def getPossibleFluxLink(browser, limierLog, depth=0):
     return listret
 
 #bruteforce feed
-def getFluxBruteForce(browser, limierLog):
+def getFluxBruteForce(browser, domain, limierLog):
     limierLog("Recherche de flux par bruteforce ಠ_ಠ")
     listret = []
-    base_url = browser.url
+    base_url = domain
     for i in uri_feed:
-        browser.open(base_url + i, verify=False)
-        if(not browser.response.ok):
-            pass
-        else:
-            if((browser.find("feed") != None) or
-               (browser.find("rss") != None)):
+        limierLog("recherche : {}{}".format(base_url, i))
+        try:
+            browser.open(base_url + i, verify=False)
+            if(not browser.response.ok):
+                pass
+            else:
+                if((browser.find("feed") != None) or
+                (browser.find("rss") != None)):
 
-                listret.append(browser.url)
+                    listret.append(browser.url)
+        except Exception as e:
+            limierLog(e)
         time.sleep(1.5)
     return listret
 
 #check le sitemap.xml s'il existe
 # TODO, traiter tous les cas de redirection vers xsl...
-def getSiteMapFlux(browser, limierLog):
+def getSiteMapFlux(browser, domain, limierLog):
     limierLog("Tentative de récupération de flux en sitemap")
-    base_url = browser.url
+    base_url = domain
     browser.open(base_url + "/sitemap.xml", verify=False)
     #check si redirection
     if(browser.response.is_redirect):

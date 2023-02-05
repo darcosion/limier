@@ -67,12 +67,15 @@ if __name__ == "__main__":
     # TODO : faire une vérification du domaine pour être sur...)
     args.domain = utils.protocol_remove(args.domain)
     assert utils.tld_check(args.domain), "le paramètre nom de domaine est incorrecte"
+    domain = None
 
     try:
         browser.open("https://" + args.domain)
+        domain = "https://" + args.domain
     except Exception as e:
         #on essaie en http au cas où
         browser.open("http://" + args.domain)
+        domain = "http://" + args.domain
 
     # vérifie s'il y a une direction.
     if(browser.response.is_redirect):
@@ -98,7 +101,7 @@ if __name__ == "__main__":
         listResearch.append(research.frameworkIdentifier)
 
     for i in richTrack(listResearch, description = 'Researching RSS') if not args.verbose else listResearch:
-        listurl = list(set(listurl) | set(i(browser, limierLog)))
+        listurl = list(set(listurl) | set(i(browser, domain, limierLog)))
 
     #gestion des résultats
     console.print(richPanel("\n--- Traitement des résultats collectés ---\n\n"))
