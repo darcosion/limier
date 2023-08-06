@@ -39,7 +39,7 @@ uri_feed = [
             '/rss/rss.php',
             # forum BB
             '/extern.php?action=feed&type=atom',
-            'rss/news/rss.xml',
+            '/rss/news/rss.xml',
             '/syndication.php',
             '/posts.rss',
             '/latest.rss',
@@ -90,8 +90,8 @@ def getPossibleFluxLink(browser, domain, limierLog, depth=0):
                 if(utils.rss_check(browser.response.content)):
                     listret.append(i.attrs['href'])
                 # on vérifie qu'il n'y a pas de liste de flux sinon
-                elif(base_url in domain):
-                    listret += getPossibleFluxLink(browser, limierLog, depth=depth+1)
+                elif(base_url in domain and base_url != domain):
+                    listret += getPossibleFluxLink(browser, domain, limierLog, depth=depth+1)
                     browser.back()
                 else:
                     # l'url n'est pas un flux rss ou ne mène pas vers un flux a priori
